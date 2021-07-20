@@ -29,6 +29,10 @@ class LinkText extends StatefulWidget {
   /// Provides the url that was tapped.
   final void Function(String url)? onLinkTap;
 
+  /// If true, the text is selectable.
+  /// Defaults to false.
+  final bool selectable;
+
   /// Creates a [LinkText] widget, used for inlined urls.
   const LinkText(
     this.text, {
@@ -38,6 +42,7 @@ class LinkText extends StatefulWidget {
     this.textAlign = TextAlign.start,
     this.shouldTrimParams = false,
     this.onLinkTap,
+    this.selectable = false,
   }) : super(key: key);
 
   @override
@@ -116,9 +121,16 @@ class _LinkTextState extends State<LinkText> {
       }
     });
 
-    return Text.rich(
-      TextSpan(children: textSpans),
-      textAlign: widget.textAlign,
-    );
+    if (widget.selectable) {
+      return SelectableText.rich(
+        TextSpan(children: textSpans),
+        textAlign: widget.textAlign,
+      );
+    } else {
+      return Text.rich(
+        TextSpan(children: textSpans),
+        textAlign: widget.textAlign,
+      );
+    }
   }
 }
